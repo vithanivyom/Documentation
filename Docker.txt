@@ -1,0 +1,111 @@
+1> To create docker file
+  	command : touch Dockerfile
+
+2> To build docker container
+	command : docker build .
+	after built container, It gives id of container
+
+3> To run container
+	command : docker run -p local_host_port:local_system_port <id_of_container>
+
+4> To stop container
+	command : docker ps
+		this command gives total working docker in system. So we get name of containers.
+	command : docker stop <name_of_container>
+5> To see all container which is/was in processes
+	command : docker ps -a
+		this command returns all containers which are still active or exited.
+
+6> To create interactive session for node
+	command : docker run -it node
+		this will gives me node.js, which is not installed in my system but still I am able to use. So this		 will running on node container.
+		this is not running in the machine
+
+- Images contains codes, setups, meets etc whereas container contains images of running those images.
+
+7> To remove all container which are running on ports:
+	command : docker system prune -a
+			it will remove all container from docker
+
+8> To show all images
+	command : docker image
+
+- if I change the code than it will not change into my docker image. Because image is snapshot of my code
+   and images are read-only mode so If I wanna change, I re create image based on new source code.
+
+- If I delete the source file  after creating an image, it is not affected to our docker file because we already 
+  take snapshot of all source code.
+
+- “docker run…” command generate new container for us. So if we didn’t change anything into our code than why 
+  we need to get new container!!! That’s why we can use old container in docker.
+
+- To reuse old container, firstly we need to find all containers which was in processes. This can be find using 5> command.
+
+  After getting all containers we simply run this below command:
+9> To execute old container 
+	command : docker start <container name>
+- difference between “docker run…” and “docker start…” command is docker run is working with attached mode where we can 
+   Listen the o/p. On the other hand “ docker start…” command is detached mode where we can not listen, we just perform the
+   Task on localhost.
+
+10> To re-run/run container in detached mode:
+	command : docker run -p <port>:<port> -d <container_id>
+
+11> To re-run/run container with attached mode:
+	command : docker attach <container_id>
+
+12> To get all logs which are performed in container:
+	command : docker logs <container_name>
+
+- command : “docker run…” has default detached mode whereas “docker start…” command has default attached mode.
+    We can change mode of both command.
+
+- if we have python file which doesn’t need any server or web-browser to run file, at that time we need detached mode which can 
+  Interact with the file and give output to us.
+  At that time we use those command:
+
+  Command : docker run -i -t <container_id> or docker run -it <container_id>
+  Command : docker start -a -i <container_id>         # here -a means attached mode and -i means interactive mode
+
+13> To remove container:
+	command : docker rm <container_id> <container_id> <container_id>
+	if we want to remove all container than follow command 7> or docker rm prune
+
+14> To remove all images
+	command : docker rmi prune
+	if we want to remove particular image:
+	command : docker rmi <image_id>
+15> we can combine 1 or more command within one line.
+   e.g :
+	docker run -p 8000:80 -d -rm <container_id>
+	-d : detached mode
+	-p : processes
+	- rm : remove container
+   So, this command tells that when we stop the container, at that time container will be remove automatically.
+
+16> To inspect the images:
+	command : docker image inspect <image_id>
+
+17> To copy file from local machine to container:
+	command : docker -cp <source> <container_name>:<folder>
+	e.g.
+			docker -cp dummy/. vyom_container:test/
+	if I want to download file from this container :
+			docker -cp vyom_container:test/ dummy/ or docker -cp vyom:test/file_name dummy
+
+- we used container name which was provided by the system but we can set the name whatever we want.
+
+18> To set name for container
+	command : docker run -p 3000:80 -d —rm -name goalapp
+			so, here my container name is goalapp.
+
+19> To ser name for image
+	command : docker build -t goal:latest .
+			here, my image name is goal:latest
+					
+			goal : latest  <— here goal is my name and latest is tag of name
+	in default images we can see that python:3.9
+	
+	so, If I want to run container which has latest image:
+	command : docker run -p 3000:80 -a -rm goalapp goal:latest
+		        docker stop goalapp. <— for stop the container
