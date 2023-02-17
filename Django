@@ -1,9 +1,0 @@
-1> to create project
-    django-admin startproject <project_name>
-
-2> to create app inside the project
-    django-admin startapp <app_name>
-
-3> for migrations
-    python manage.py makemigration
-    python magae.py migrate
